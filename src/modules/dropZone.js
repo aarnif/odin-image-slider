@@ -1,3 +1,7 @@
+import images from "../imageData.js";
+import handleDrop from "../services/fileService.js";
+import displayService from "../services/displayService.js";
+
 const dropZone = () => {
   const dropZoneContainer = document.createElement("div");
   dropZoneContainer.classList.add("drop-zone-container");
@@ -14,6 +18,9 @@ const dropZone = () => {
   dropZone.addEventListener("drop", (e) => {
     e.preventDefault();
     console.log("Files have been dropped in the drop zone");
+    handleDrop(e, images);
+    console.log(images);
+    displayService.updatePage();
   });
 
   dropZoneContainer.appendChild(dropZone);

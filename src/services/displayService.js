@@ -6,4 +6,9 @@ const loadPage = () => {
   addDropZone(wrapper);
 };
 
-export default { loadPage };
+const updatePage = () => {
+  wrapper.innerHTML = "";
+  wrapper.textContent = "Files have been uploaded";
+};
+
+export default { loadPage, updatePage };
