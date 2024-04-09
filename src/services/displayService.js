@@ -1,14 +1,15 @@
 import addDropZone from "../modules/dropZone";
+import addPreview from "../modules/preview";
 
 const content = document.getElementById("content");
 
-const loadPage = () => {
-  addDropZone(content);
+const loadPage = (images) => {
+  addDropZone(content, images);
 };
 
-const updatePage = () => {
+const updatePage = (images) => {
   content.innerHTML = "";
-  content.textContent = "Files have been uploaded";
+  addPreview(content, images);
 };
 
 export default { loadPage, updatePage };

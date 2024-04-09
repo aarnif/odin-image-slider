@@ -1,18 +1,19 @@
 import { v4 as uuid } from "uuid";
 
-const handleDrop = (e, images) => {
+const handleDrop = async (e, images) => {
   e.preventDefault();
 
-  const items = e.dataTransfer.items;
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i].webkitGetAsEntry();
-    if (item) {
-      traverseFileTree(item, images);
-    }
+  for (const item of e.dataTransfer.items) {
+    const dataTransferItem = item.webkitGetAsEntry();
+    traverseFileTree(dataTransferItem, images);
   }
+  // Give some time for the recursive traverseFileTree-function to finish, make better solution later
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, 500);
+  });
 };
 
-const traverseFileTree = (item, images, path = "") => {
+const traverseFileTree = (item, images) => {
   if (item.isFile) {
     item.file((file) => {
       if (file.type.startsWith("image/")) {
@@ -24,10 +25,10 @@ const traverseFileTree = (item, images, path = "") => {
     const dirReader = item.createReader();
     dirReader.readEntries((entries) => {
       for (let i = 0; i < entries.length; i++) {
-        traverseFileTree(entries[i], images, path + item.name + "/");
+        traverseFileTree(entries[i], images);
       }
     });
   }
 };
 
-export default handleDrop;
+export default { handleDrop };

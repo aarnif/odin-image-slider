@@ -1,8 +1,7 @@
-import images from "../imageData.js";
-import handleDrop from "../services/fileService.js";
+import fileService from "../services/fileService.js";
 import displayService from "../services/displayService.js";
 
-const dropZone = () => {
+const dropZone = (images) => {
   const dropZoneContainer = document.createElement("div");
   dropZoneContainer.classList.add("drop-zone-container");
 
@@ -10,7 +9,7 @@ const dropZone = () => {
   dropZone.classList.add("drop-zone");
   dropZone.textContent = "Drop files here";
 
-  dropZone.addEventListener("dragover", (e) => {
+  dropZone.addEventListener("dragover", async (e) => {
     e.preventDefault();
     console.log("Files are over the drop zone");
   });
@@ -18,9 +17,9 @@ const dropZone = () => {
   dropZone.addEventListener("drop", (e) => {
     e.preventDefault();
     console.log("Files have been dropped in the drop zone");
-    handleDrop(e, images);
-    console.log(images);
-    displayService.updatePage();
+    fileService.handleDrop(e, images).then(() => {
+      displayService.updatePage(images);
+    });
   });
 
   dropZoneContainer.appendChild(dropZone);
@@ -28,8 +27,8 @@ const dropZone = () => {
   return dropZoneContainer;
 };
 
-const addDropZone = (parentElement) => {
-  parentElement.appendChild(dropZone());
+const addDropZone = (parentElement, images) => {
+  parentElement.appendChild(dropZone(images));
 };
 
 export default addDropZone;
