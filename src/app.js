@@ -1,9 +1,7 @@
-import sumOfTwoNumbers from "./modules/example.js";
+import displayService from "./services/displayService";
 
 const app = () => {
-  const a = 1;
-  const b = 2;
-  console.log(`The sum of integers ${a} and ${b} is ${sumOfTwoNumbers(a, b)}`);
+  displayService.loadPage();
 };
 
 export default app;

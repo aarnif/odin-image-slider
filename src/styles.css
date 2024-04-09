@@ -6,4 +6,13 @@
   body {
     @apply m-0 box-border;
   }
+  #wrapper {
+    @apply flex flex-col justify-center items-center h-screen;
+  }
+  .drop-zone-container {
+    @apply flex-grow w-full flex justify-center items-center;
+  }
+  .drop-zone {
+    @apply flex-grow h-full max-w-[500px] max-h-[500px] flex justify-center items-center border-4 border-dashed border-gray-400 rounded-lg;
+  }
 }
