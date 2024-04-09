@@ -1,14 +1,14 @@
 import addDropZone from "../modules/dropZone";
 
-const wrapper = document.getElementById("wrapper");
+const content = document.getElementById("content");
 
 const loadPage = () => {
-  addDropZone(wrapper);
+  addDropZone(content);
 };
 
 const updatePage = () => {
-  wrapper.innerHTML = "";
-  wrapper.textContent = "Files have been uploaded";
+  content.innerHTML = "";
+  content.textContent = "Files have been uploaded";
 };
 
 export default { loadPage, updatePage };
