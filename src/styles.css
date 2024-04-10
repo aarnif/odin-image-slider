@@ -57,4 +57,22 @@
   .slideshow-control-icon {
     @apply w-16 h-16;
   }
+  .slideshow-thumbnails-container {
+    @apply fixed bottom-10;
+  }
+  .slideshow-thumbnail-items {
+    @apply flex justify-center items-center;
+  }
+  .slideshow-thumbnail-button {
+    @apply w-8 h-8 m-2 bg-white rounded-full hover:bg-slate-700;
+  }
+  .slideshow-thumbnail-image-container {
+    @apply invisible fixed bottom-24 w-40;
+  }
+  .slideshow-thumbnail-image-container.active {
+    @apply visible;
+  }
+  .slideshow-thumbnail-image {
+    @apply w-full h-full object-cover;
+  }
 }

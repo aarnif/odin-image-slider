@@ -132,6 +132,73 @@ const slideShowButtons = (slideShowImage) => {
   return slideShowButtonsContainer;
 };
 
+const thumbnailImage = () => {
+  const thunbnailImageContainer = document.createElement("div");
+  thunbnailImageContainer.id = "thumbnail-image-container";
+  thunbnailImageContainer.classList.add("slideshow-thumbnail-image-container");
+
+  const thumbnailImage = document.createElement("img");
+  thumbnailImage.id = "thumbnail-image";
+  thumbnailImage.classList.add("slideshow-thumbnail-image");
+  thumbnailImage.src = "";
+
+  thunbnailImageContainer.appendChild(thumbnailImage);
+
+  return thunbnailImageContainer;
+};
+
+const slideshowThumbnail = (slideShowImage, thumbnailIndex) => {
+  const thumbnailItem = document.createElement("li");
+  thumbnailItem.classList.add("slideshow-thumbnail-item");
+
+  const thumbnailItemButton = document.createElement("button");
+  thumbnailItemButton.classList.add("slideshow-thumbnail-button");
+
+  thumbnailItemButton.addEventListener("mouseover", () => {
+    console.log(`Thumbnail index ${thumbnailIndex} mouseover`);
+    const thumbnailImageContainer = document.getElementById(
+      "thumbnail-image-container"
+    );
+    const thumbnailImage = document.getElementById("thumbnail-image");
+    thumbnailImage.src = chosenImages[thumbnailIndex].url;
+    thumbnailImageContainer.classList.toggle("active");
+  });
+
+  thumbnailItemButton.addEventListener("mouseout", () => {
+    console.log(`Thumbnail index ${thumbnailIndex} mouseout`);
+    const thumbnailImageContainer = document.getElementById(
+      "thumbnail-image-container"
+    );
+    thumbnailImageContainer.classList.toggle("active");
+  });
+
+  thumbnailItemButton.addEventListener("click", () => {
+    console.log(`Thumbnail index ${thumbnailIndex} clicked`);
+    slideShowImage.src = chosenImages[thumbnailIndex].url;
+  });
+
+  thumbnailItem.appendChild(thumbnailItemButton);
+
+  return thumbnailItem;
+};
+
+const slideshowThumbnails = (slideShowImage) => {
+  const thumbnailsContainer = document.createElement("div");
+  thumbnailsContainer.classList.add("slideshow-thumbnails-container");
+
+  const thumbNailItems = document.createElement("ul");
+  thumbNailItems.classList.add("slideshow-thumbnail-items");
+
+  chosenImages.forEach((choseImage, thumbnailIndex) => {
+    const thumbnail = slideshowThumbnail(slideShowImage, thumbnailIndex);
+    thumbNailItems.appendChild(thumbnail);
+  });
+
+  thumbnailsContainer.appendChild(thumbNailItems);
+
+  return thumbnailsContainer;
+};
+
 const createSlideShow = () => {
   const slideShowContainer = document.createElement("div");
   slideShowContainer.classList.add("slide-show-container");
@@ -147,8 +214,13 @@ const createSlideShow = () => {
   slideShowContainer.appendChild(slideShow);
 
   const slideShowButtonsContainer = slideShowButtons(slideShowImage);
-
   slideShowContainer.appendChild(slideShowButtonsContainer);
+
+  const thumbnailImageContainer = thumbnailImage();
+  slideShowContainer.appendChild(thumbnailImageContainer);
+
+  const thumbnailsContainer = slideshowThumbnails(slideShowImage);
+  slideShowContainer.appendChild(thumbnailsContainer);
 
   startSlideShow(slideShowImage);
 
