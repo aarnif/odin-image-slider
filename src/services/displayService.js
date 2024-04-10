@@ -1,5 +1,6 @@
 import addDropZone from "../modules/dropZone";
 import addPreview from "../modules/preview";
+import addSlideShow from "../modules/slideShow";
 
 const content = document.getElementById("content");
 
@@ -7,9 +8,14 @@ const loadPage = (images) => {
   addDropZone(content, images);
 };
 
-const updatePage = (images) => {
+const showPreview = (images) => {
   content.innerHTML = "";
   addPreview(content, images);
 };
 
-export default { loadPage, updatePage };
+const showSlideShow = (images) => {
+  content.innerHTML = "";
+  addSlideShow(content, images);
+};
+
+export default { loadPage, showPreview, showSlideShow };

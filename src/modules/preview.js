@@ -1,15 +1,9 @@
 import displayService from "../services/displayService";
 import dataService from "../services/dataService";
 
-const preview = (images) => {
-  const previewContainer = document.createElement("div");
-  previewContainer.classList.add("preview-container");
-
-  const preview = document.createElement("div");
-  preview.classList.add("preview");
-
-  console.log(images);
-  console.log(images.length);
+const createImagesContainer = (images) => {
+  const imagesPreview = document.createElement("div");
+  imagesPreview.classList.add("preview");
 
   images.forEach((image) => {
     const imgContainer = document.createElement("button");
@@ -28,12 +22,34 @@ const preview = (images) => {
       image.isChosen = !image.isChosen;
       console.log(image);
       imgContainer.classList.toggle("chosen");
-      displayService.updatePage(images);
+      displayService.showPreview(images);
     });
 
     imgContainer.appendChild(img);
-    preview.appendChild(imgContainer);
+    imagesPreview.appendChild(imgContainer);
   });
+
+  return imagesPreview;
+};
+
+const createStartSlideShowButton = (chosenImages) => {
+  const startSlideshowButton = document.createElement("button");
+  startSlideshowButton.classList.add("start-slideshow-button");
+  startSlideshowButton.textContent = "Start Slideshow";
+
+  startSlideshowButton.addEventListener("click", () => {
+    console.log("Start Slideshow");
+    displayService.showSlideShow(chosenImages);
+  });
+
+  return startSlideshowButton;
+};
+
+const preview = (images) => {
+  const previewContainer = document.createElement("div");
+  previewContainer.classList.add("preview-container");
+
+  const preview = createImagesContainer(images);
 
   const chosenImages = dataService.getChosenImages(images);
 
@@ -41,8 +57,11 @@ const preview = (images) => {
   imagesChosenHeader.classList.add("chosen-images-header");
   imagesChosenHeader.textContent = `${chosenImages.length} of ${images.length} Images chosen`;
 
+  const startSlideShowButton = createStartSlideShowButton(images);
+
   previewContainer.appendChild(preview);
   previewContainer.appendChild(imagesChosenHeader);
+  previewContainer.appendChild(startSlideShowButton);
 
   return previewContainer;
 };

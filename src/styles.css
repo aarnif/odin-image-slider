@@ -36,4 +36,25 @@
   .chosen-images-header {
     @apply fixed bottom-16;
   }
+  .start-slideshow-button {
+    @apply fixed bottom-10;
+  }
+  .slide-show-container {
+    @apply fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center;
+  }
+  .slide-show-image {
+    @apply object-cover;
+  }
+  .slide-show-buttons-container {
+    @apply fixed inset-0 flex justify-around items-center;
+  }
+  .slideshow-exit-button {
+    @apply fixed top-10 right-10 rotate-45;
+  }
+  .slideshow-control-button {
+    @apply flex justify-center items-center;
+  }
+  .slideshow-control-icon {
+    @apply w-16 h-16;
+  }
 }
