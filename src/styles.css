@@ -4,19 +4,22 @@
 
 @layer base {
   body {
-    @apply m-0 box-border;
+    @apply m-0 box-border text-white bg-slate-900 text-xl;
   }
   #wrapper {
     @apply flex flex-col items-center h-screen;
   }
   .header {
-    @apply w-full h-16 flex justify-center items-center;
+    @apply w-full flex justify-center items-center;
   }
   .header.hide {
     @apply invisible;
   }
+  .header-content {
+    @apply flex-grow flex justify-center items-center my-4 bg-slate-900 shadow-lg text-3xl font-extrabold;
+  }
   #content {
-    @apply w-full flex-grow flex justify-center items-center;
+    @apply w-full flex-grow flex justify-center items-center bg-slate-700;
   }
   .drop-zone-container {
     @apply flex-grow h-full flex justify-center items-center;
@@ -97,9 +100,18 @@
     @apply w-full h-full object-cover;
   }
   .footer {
-    @apply w-full h-16 flex justify-center items-center;
+    @apply fixed bottom-0 w-full flex justify-center items-center bg-slate-900 shadow-lg;
   }
   .footer.hide {
     @apply invisible;
+  }
+  .footer-content {
+    @apply flex justify-center items-center py-2;
+  }
+  .footer-text {
+    @apply pr-2 text-lg font-bold;
+  }
+  .github-icon {
+    @apply w-6 fill-current hover:animate-rotate-and-scale active:scale-95;
   }
 }
