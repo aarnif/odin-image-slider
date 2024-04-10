@@ -22,10 +22,30 @@
     @apply w-full flex-grow flex justify-center items-center bg-slate-700;
   }
   .drop-zone-container {
-    @apply flex-grow h-full flex justify-center items-center;
+    @apply relative flex-grow h-full flex justify-center items-center;
   }
   .drop-zone {
-    @apply flex-grow h-full max-w-[500px] max-h-[500px] flex justify-center items-center border-4 border-dashed border-gray-400 rounded-lg;
+    @apply relative flex-grow h-full max-w-[600px] max-h-[600px] flex justify-center items-center 
+    border-4 border-dashed border-slate-500 rounded-lg text-slate-500 font-bold text-2xl
+   bg-slate-700 z-0;
+  }
+  .drop-zone.active {
+    @apply border-green-400 text-green-400;
+  }
+  .drop-zone-wave {
+    @apply absolute opacity-0 w-full h-full rounded-lg bg-green-600 z-[-1];
+  }
+  .drop-zone-wave.one {
+    @apply animate-wave-one;
+  }
+  .drop-zone-wave.two {
+    @apply animate-wave-two;
+  }
+  .drop-zone-wave.three {
+    @apply animate-wave-three;
+  }
+  .drop-zone-wave.four {
+    @apply animate-wave-four;
   }
   .preview-container {
     @apply flex-grow h-full flex flex-col justify-center items-center;
