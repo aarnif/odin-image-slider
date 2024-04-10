@@ -11,6 +11,7 @@ let isSlideShowRunning = false;
 let startSlideShowInterval = null;
 let allImages = [];
 let chosenImages = [];
+let timeout = null;
 
 const startSlideShow = (slideShowImage) => {
   console.log("startSlideShow");
@@ -202,7 +203,7 @@ const slideshowThumbnails = (slideShowImage) => {
 const createSlideShow = () => {
   const slideShowContainer = document.createElement("div");
   slideShowContainer.classList.add("slide-show-container");
-  const slideShow = document.createElement("button");
+  const slideShow = document.createElement("div");
   slideShow.classList.add("slide-show");
 
   const slideShowImage = document.createElement("img");
@@ -231,6 +232,33 @@ const addSlideShow = (parentElement, images) => {
   allImages = [...images];
   chosenImages = [...dataService.getChosenImages(images)];
   parentElement.appendChild(createSlideShow());
+
+  const slideShowContainer = document.querySelector(".slide-show-container");
+
+  slideShowContainer.addEventListener("mousemove", () => {
+    console.log("Show slideshow controls");
+
+    const slideShowImage = document.querySelector(".slide-show");
+    const slideThumbnailsContainer = document.querySelector(
+      ".slideshow-thumbnails-container"
+    );
+    const slideShowButtonsContainer = document.querySelector(
+      ".slide-show-buttons-container"
+    );
+    slideShowContainer.classList.remove("show");
+    slideShowImage.classList.add("show");
+    slideThumbnailsContainer.classList.add("show");
+    slideShowButtonsContainer.classList.add("show");
+
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+      slideShowContainer.classList.add("show");
+      slideShowImage.classList.remove("show");
+      slideThumbnailsContainer.classList.remove("show");
+      slideShowButtonsContainer.classList.remove("show");
+    }, 2000);
+  });
 };
 
 export default addSlideShow;
