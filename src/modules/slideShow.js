@@ -197,27 +197,6 @@ const slideshowThumbnails = () => {
   return thumbnailsContainer;
 };
 
-const createSlideShowImage = () => {
-  const slideShowImage = document.createElement("img");
-  slideShowImage.src = chosenImages[index].url;
-  slideShowImage.className = "slide-show-image-one";
-
-  return slideShowImage;
-};
-
-// const updateSlideShowImage = () => {
-//   console.log("slideShowAnimation");
-//   const slideShowImageContainer = document.querySelector(".slide-show");
-//   slideShowImageContainer.innerHTML = "";
-
-//   const slideShowImage = document.createElement("img");
-//   slideShowImage.src = chosenImages[index].url;
-//   slideShowImage.className = "slide-show-image";
-
-//   slideShowImageContainer.innerHTML = "";
-//   slideShowImageContainer.appendChild(slideShowImage);
-// };
-
 const updateSlideShowImage = () => {
   console.log("slideShowAnimation");
   const slideShowImageContainer = document.querySelector(".slide-show");
