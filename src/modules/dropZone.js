@@ -42,7 +42,6 @@ const dropZone = (images) => {
     e.preventDefault();
     console.log("Files have been dropped in the drop zone");
     fileService.handleDrop(e, images).then(() => {
-      console.log(images);
       displayService.showPreview(images);
     });
   });

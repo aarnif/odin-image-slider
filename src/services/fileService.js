@@ -2,11 +2,9 @@ import { v4 as uuid } from "uuid";
 
 const handleDrop = async (e, images) => {
   e.preventDefault();
-  console.log(e.dataTransfer.items);
 
   for (const item of e.dataTransfer.items) {
     const dataTransferItem = item.webkitGetAsEntry();
-    console.log(dataTransferItem);
     traverseFileTree(dataTransferItem, images);
   }
   // Give some time for the recursive traverseFileTree-function to finish, make better solution later
@@ -21,7 +19,6 @@ const traverseFileTree = (item, images) => {
       if (file.type.startsWith("image/")) {
         const url = URL.createObjectURL(file);
         images.push({ id: uuid(), url, isChosen: true });
-        console.log(images);
       }
     });
   } else if (item.isDirectory) {
