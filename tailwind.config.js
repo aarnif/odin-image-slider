@@ -18,12 +18,12 @@ module.exports = {
             opacity: "0",
           },
         },
-        opacity: {
-          "0%": {
-            opacity: "0",
-          },
+        fadeOut: {
           "100%": {
             opacity: "1",
+          },
+          "0%": {
+            opacity: "0",
           },
         },
       },
@@ -33,7 +33,7 @@ module.exports = {
         "wave-two": "wave 2s 0.5s ease-in-out infinite",
         "wave-three": "wave 2s 1s ease-in-out infinite",
         "wave-four": "wave 2s 1.5s ease-in-out infinite",
-        "fade-in": "opacity 5s ease-in-out forwards",
+        "fade-out": "fadeOut 5000ms ease-in-out forwards",
       },
     },
   },

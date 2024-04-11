@@ -24,11 +24,11 @@ const startSlideShow = () => {
 };
 
 const stopSlideShow = () => {
-  const slideShowImage = document.querySelector(".slide-show-image");
-  slideShowImage.classList.remove("animate");
   isSlideShowRunning = false;
   console.log("stopSlideShow");
   clearInterval(startSlideShowInterval);
+  const slideShowImageTwo = document.querySelector(".slide-show-image-two");
+  slideShowImageTwo.classList.remove("animate");
 };
 
 const handleNext = (index) => {
@@ -200,33 +200,47 @@ const slideshowThumbnails = () => {
 const createSlideShowImage = () => {
   const slideShowImage = document.createElement("img");
   slideShowImage.src = chosenImages[index].url;
-  slideShowImage.className = "slide-show-image";
+  slideShowImage.className = "slide-show-image-one";
 
   return slideShowImage;
 };
+
+// const updateSlideShowImage = () => {
+//   console.log("slideShowAnimation");
+//   const slideShowImageContainer = document.querySelector(".slide-show");
+//   slideShowImageContainer.innerHTML = "";
+
+//   const slideShowImage = document.createElement("img");
+//   slideShowImage.src = chosenImages[index].url;
+//   slideShowImage.className = "slide-show-image";
+
+//   slideShowImageContainer.innerHTML = "";
+//   slideShowImageContainer.appendChild(slideShowImage);
+// };
 
 const updateSlideShowImage = () => {
   console.log("slideShowAnimation");
   const slideShowImageContainer = document.querySelector(".slide-show");
   slideShowImageContainer.innerHTML = "";
 
-  const slideShowImage = document.createElement("img");
-  slideShowImage.src = chosenImages[index].url;
-  slideShowImage.className = "slide-show-image";
+  const slideShowImageOne = document.createElement("img");
+  slideShowImageOne.src = chosenImages[index].url;
+  slideShowImageOne.className = "slide-show-image-one";
 
-  slideShowImageContainer.innerHTML = "";
-  slideShowImageContainer.appendChild(slideShowImage);
+  const slideShowImageTwo = document.createElement("img");
+  slideShowImageTwo.src = chosenImages[handleNext(index)].url;
+  slideShowImageTwo.className = "slide-show-image-two animate";
+
+  slideShowImageContainer.appendChild(slideShowImageOne);
+  slideShowImageContainer.appendChild(slideShowImageTwo);
 };
 
 const createSlideShow = () => {
   const slideShowContainer = document.createElement("div");
   slideShowContainer.classList.add("slide-show-container");
+
   const slideShow = document.createElement("div");
   slideShow.classList.add("slide-show");
-
-  const slideShowImageElement = createSlideShowImage();
-  slideShow.appendChild(slideShowImageElement);
-
   slideShowContainer.appendChild(slideShow);
 
   const slideShowButtonsContainer = slideShowButtons();
@@ -274,6 +288,8 @@ const addSlideShow = (parentElement, images) => {
       slideShowButtonsContainer.classList.remove("show");
     }, 2000);
   });
+
+  updateSlideShowImage();
 };
 
 export default addSlideShow;

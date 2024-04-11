@@ -79,16 +79,19 @@
     @apply cursor-none;
   }
   .slide-show {
-    @apply cursor-none;
+    @apply cursor-none w-full h-full;
   }
   .slide-show.show {
     @apply cursor-pointer;
   }
-  .slide-show-image {
-    @apply object-cover animate-fade-in;
+  .slide-show-image-one {
+    @apply relative w-full h-full;
   }
-  .slide-show-image.animate {
-    @apply animate-fade-in;
+  .slide-show-image-two {
+    @apply absolute top-0 left-0 w-full h-full;
+  }
+  .slide-show-image-two.animate {
+    @apply animate-fade-out;
   }
   .slide-show-buttons-container {
     @apply invisible opacity-0 fixed inset-0 flex justify-around items-center transition-effect;
