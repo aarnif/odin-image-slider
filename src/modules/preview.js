@@ -1,6 +1,8 @@
 import displayService from "../services/displayService";
 import dataService from "../services/dataService";
 
+let chosenImages = [];
+
 const createImagesContainer = (images) => {
   const imagesPreview = document.createElement("div");
   imagesPreview.classList.add("preview");
@@ -10,7 +12,7 @@ const createImagesContainer = (images) => {
     imgContainer.classList.add("preview-image-container");
 
     if (image.isChosen) {
-      imgContainer.classList.add("chosen");
+      imgContainer.classList.add("active");
     }
 
     const img = document.createElement("img");
@@ -18,11 +20,15 @@ const createImagesContainer = (images) => {
     img.classList.add("preview-image");
 
     img.addEventListener("click", () => {
+      const chosenImagesHeader = document.querySelector(
+        ".chosen-images-header"
+      );
       console.log("Choose an image");
       image.isChosen = !image.isChosen;
       console.log(image);
-      imgContainer.classList.toggle("chosen");
-      displayService.showPreview(images);
+      imgContainer.classList.toggle("active");
+      chosenImages = [...dataService.getChosenImages(images)];
+      chosenImagesHeader.textContent = `${chosenImages.length} of ${images.length} Images chosen`;
     });
 
     imgContainer.appendChild(img);
@@ -32,7 +38,7 @@ const createImagesContainer = (images) => {
   return imagesPreview;
 };
 
-const createStartSlideShowButton = (chosenImages) => {
+const createStartSlideShowButton = () => {
   const startSlideshowButton = document.createElement("button");
   startSlideshowButton.classList.add("start-slideshow-button");
   startSlideshowButton.textContent = "Start Slideshow";
@@ -51,13 +57,11 @@ const preview = (images) => {
 
   const preview = createImagesContainer(images);
 
-  const chosenImages = dataService.getChosenImages(images);
-
   const imagesChosenHeader = document.createElement("h2");
   imagesChosenHeader.classList.add("chosen-images-header");
   imagesChosenHeader.textContent = `${chosenImages.length} of ${images.length} Images chosen`;
 
-  const startSlideShowButton = createStartSlideShowButton(images);
+  const startSlideShowButton = createStartSlideShowButton();
 
   previewContainer.appendChild(preview);
   previewContainer.appendChild(imagesChosenHeader);
@@ -67,6 +71,7 @@ const preview = (images) => {
 };
 
 const addPreview = (parentElement, images) => {
+  chosenImages = [...dataService.getChosenImages(images)];
   parentElement.appendChild(preview(images));
 };
 
