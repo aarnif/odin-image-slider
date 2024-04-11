@@ -18,6 +18,14 @@ module.exports = {
             opacity: "0",
           },
         },
+        opacity: {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
       },
       animation: {
         "rotate-and-scale": "rotateAndScale 500ms ease-in-out forwards",
@@ -25,6 +33,7 @@ module.exports = {
         "wave-two": "wave 2s 0.5s ease-in-out infinite",
         "wave-three": "wave 2s 1s ease-in-out infinite",
         "wave-four": "wave 2s 1.5s ease-in-out infinite",
+        "fade-in": "opacity 5s ease-in-out forwards",
       },
     },
   },

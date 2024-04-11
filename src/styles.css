@@ -85,13 +85,16 @@
     @apply cursor-pointer;
   }
   .slide-show-image {
-    @apply object-cover;
+    @apply object-cover animate-fade-in;
+  }
+  .slide-show-image.animate {
+    @apply animate-fade-in;
   }
   .slide-show-buttons-container {
-    @apply invisible fixed inset-0 flex justify-around items-center;
+    @apply invisible opacity-0 fixed inset-0 flex justify-around items-center transition-effect;
   }
   .slide-show-buttons-container.show {
-    @apply visible;
+    @apply visible opacity-100;
   }
   .slideshow-exit-button {
     @apply fixed top-10 right-10 rotate-45;
@@ -100,25 +103,25 @@
     @apply flex justify-center items-center;
   }
   .slideshow-control-icon {
-    @apply w-16 h-16;
+    @apply w-16 h-16 fill-current text-white hover:text-slate-400 active:scale-95 transition-effect;
   }
   .slideshow-thumbnails-container {
-    @apply invisible fixed bottom-10;
+    @apply invisible opacity-0 fixed bottom-10 transition-effect;
   }
   .slideshow-thumbnails-container.show {
-    @apply visible;
+    @apply visible opacity-100;
   }
   .slideshow-thumbnail-items {
     @apply flex justify-center items-center;
   }
   .slideshow-thumbnail-button {
-    @apply w-8 h-8 m-2 bg-white rounded-full hover:bg-slate-700;
+    @apply w-8 h-8 m-2 bg-white rounded-full hover:bg-slate-700 active:scale-95 transition-effect;
   }
   .slideshow-thumbnail-image-container {
-    @apply invisible fixed bottom-24 w-40;
+    @apply invisible opacity-0 fixed bottom-28 w-52 transition-effect;
   }
   .slideshow-thumbnail-image-container.active {
-    @apply visible;
+    @apply visible opacity-100;
   }
   .slideshow-thumbnail-image {
     @apply w-full h-full object-cover;

@@ -1,29 +1,31 @@
-import exitIcon from "../assets/images/exit.svg";
-import playIcon from "../assets/images/play.svg";
-import pauseIcon from "../assets/images/pause.svg";
-import previousIcon from "../assets/images/previous.svg";
-import nextIcon from "../assets/images/next.svg";
+import exitIcon from "./icons/exit.js";
+import playIcon from "./icons/play.js";
+import pauseIcon from "./icons/pause.js";
+import previousIcon from "./icons/previous.js";
+import nextIcon from "./icons/next.js";
 import displayService from "../services/displayService";
 import dataService from "../services/dataService";
 
 let index = 0;
-let isSlideShowRunning = false;
+let isSlideShowRunning = true;
 let startSlideShowInterval = null;
 let allImages = [];
 let chosenImages = [];
 let timeout = null;
+const slideShowDuration = 5000;
 
-const startSlideShow = (slideShowImage) => {
+const startSlideShow = () => {
   console.log("startSlideShow");
   isSlideShowRunning = true;
   startSlideShowInterval = setInterval(() => {
     index = handleNext(index);
-    slideShowImage.src = chosenImages[index].url;
-    console.log(index);
-  }, 2000);
+    updateSlideShowImage();
+  }, slideShowDuration);
 };
 
 const stopSlideShow = () => {
+  const slideShowImage = document.querySelector(".slide-show-image");
+  slideShowImage.classList.remove("animate");
   isSlideShowRunning = false;
   console.log("stopSlideShow");
   clearInterval(startSlideShowInterval);
@@ -43,12 +45,9 @@ const slideShowExitButton = () => {
   const slideShowExitButton = document.createElement("button");
   slideShowExitButton.classList.add("slideshow-exit-button");
 
-  const slideShowExitIcon = document.createElement("img");
-  slideShowExitIcon.classList.add("slideshow-control-icon");
+  const slideShowExitIcon = exitIcon();
 
-  slideShowExitIcon.src = exitIcon;
-
-  slideShowExitIcon.addEventListener("click", () => {
+  slideShowExitButton.addEventListener("click", () => {
     console.log("Exit button clicked");
     stopSlideShow();
     displayService.showPreview(allImages);
@@ -59,18 +58,19 @@ const slideShowExitButton = () => {
   return slideShowExitButton;
 };
 
-const createPlayOrPauseButton = (slideShowImage) => {
+const createPlayOrPauseButton = () => {
   const playOrPauseButton = document.createElement("button");
   playOrPauseButton.classList.add("slideshow-control-button");
 
-  const playOrPauseIcon = document.createElement("img");
-  playOrPauseIcon.classList.add("slideshow-control-icon");
-  playOrPauseIcon.src = pauseIcon;
+  const playOrPauseIcon = isSlideShowRunning ? pauseIcon() : playIcon();
 
-  playOrPauseIcon.addEventListener("click", () => {
+  playOrPauseButton.addEventListener("click", () => {
     console.log("Play/pause button clicked");
-    isSlideShowRunning ? stopSlideShow() : startSlideShow(slideShowImage);
-    playOrPauseIcon.src = isSlideShowRunning ? pauseIcon : playIcon;
+    isSlideShowRunning ? stopSlideShow() : startSlideShow();
+    playOrPauseButton.innerHTML = "";
+    playOrPauseButton.appendChild(
+      isSlideShowRunning ? pauseIcon() : playIcon()
+    );
   });
 
   playOrPauseButton.appendChild(playOrPauseIcon);
@@ -78,18 +78,16 @@ const createPlayOrPauseButton = (slideShowImage) => {
   return playOrPauseButton;
 };
 
-const createPreviousButton = (slideShowImage) => {
+const createPreviousButton = () => {
   const previousButton = document.createElement("button");
   previousButton.classList.add("slideshow-control-button");
 
-  const previousIconElement = document.createElement("img");
-  previousIconElement.classList.add("slideshow-control-icon");
-  previousIconElement.src = previousIcon;
+  const previousIconElement = previousIcon();
 
-  previousIconElement.addEventListener("click", () => {
+  previousButton.addEventListener("click", () => {
     console.log("Previous button clicked");
-    index = handlePrevious(index, images);
-    slideShowImage.src = images[index].url;
+    index = handlePrevious(index);
+    updateSlideShowImage();
   });
 
   previousButton.appendChild(previousIconElement);
@@ -97,18 +95,16 @@ const createPreviousButton = (slideShowImage) => {
   return previousButton;
 };
 
-const createNextButton = (slideShowImage) => {
+const createNextButton = () => {
   const nextButton = document.createElement("button");
   nextButton.classList.add("slideshow-control-button");
 
-  const nextIconElement = document.createElement("img");
-  nextIconElement.classList.add("slideshow-control-icon");
-  nextIconElement.src = nextIcon;
+  const nextIconElement = nextIcon();
 
-  nextIconElement.addEventListener("click", () => {
+  nextButton.addEventListener("click", () => {
     console.log("Next button clicked");
     index = handleNext(index);
-    slideShowImage.src = chosenImages[index].url;
+    updateSlideShowImage();
   });
 
   nextButton.appendChild(nextIconElement);
@@ -116,14 +112,14 @@ const createNextButton = (slideShowImage) => {
   return nextButton;
 };
 
-const slideShowButtons = (slideShowImage) => {
+const slideShowButtons = () => {
   const slideShowButtonsContainer = document.createElement("div");
   slideShowButtonsContainer.classList.add("slide-show-buttons-container");
 
   const exitButton = slideShowExitButton();
-  const playOrPauseButton = createPlayOrPauseButton(slideShowImage);
-  const previousButton = createPreviousButton(slideShowImage);
-  const nextButton = createNextButton(slideShowImage);
+  const playOrPauseButton = createPlayOrPauseButton();
+  const previousButton = createPreviousButton();
+  const nextButton = createNextButton();
 
   slideShowButtonsContainer.appendChild(exitButton);
   slideShowButtonsContainer.appendChild(previousButton);
@@ -148,7 +144,7 @@ const thumbnailImage = () => {
   return thunbnailImageContainer;
 };
 
-const slideshowThumbnail = (slideShowImage, thumbnailIndex) => {
+const slideshowThumbnail = (thumbnailIndex) => {
   const thumbnailItem = document.createElement("li");
   thumbnailItem.classList.add("slideshow-thumbnail-item");
 
@@ -175,7 +171,8 @@ const slideshowThumbnail = (slideShowImage, thumbnailIndex) => {
 
   thumbnailItemButton.addEventListener("click", () => {
     console.log(`Thumbnail index ${thumbnailIndex} clicked`);
-    slideShowImage.src = chosenImages[thumbnailIndex].url;
+    index = thumbnailIndex;
+    updateSlideShowImage();
   });
 
   thumbnailItem.appendChild(thumbnailItemButton);
@@ -183,15 +180,15 @@ const slideshowThumbnail = (slideShowImage, thumbnailIndex) => {
   return thumbnailItem;
 };
 
-const slideshowThumbnails = (slideShowImage) => {
+const slideshowThumbnails = () => {
   const thumbnailsContainer = document.createElement("div");
   thumbnailsContainer.classList.add("slideshow-thumbnails-container");
 
   const thumbNailItems = document.createElement("ul");
   thumbNailItems.classList.add("slideshow-thumbnail-items");
 
-  chosenImages.forEach((choseImage, thumbnailIndex) => {
-    const thumbnail = slideshowThumbnail(slideShowImage, thumbnailIndex);
+  chosenImages.forEach((chosenImage, thumbnailIndex) => {
+    const thumbnail = slideshowThumbnail(thumbnailIndex);
     thumbNailItems.appendChild(thumbnail);
   });
 
@@ -200,30 +197,48 @@ const slideshowThumbnails = (slideShowImage) => {
   return thumbnailsContainer;
 };
 
+const createSlideShowImage = () => {
+  const slideShowImage = document.createElement("img");
+  slideShowImage.src = chosenImages[index].url;
+  slideShowImage.className = "slide-show-image";
+
+  return slideShowImage;
+};
+
+const updateSlideShowImage = () => {
+  console.log("slideShowAnimation");
+  const slideShowImageContainer = document.querySelector(".slide-show");
+  slideShowImageContainer.innerHTML = "";
+
+  const slideShowImage = document.createElement("img");
+  slideShowImage.src = chosenImages[index].url;
+  slideShowImage.className = "slide-show-image";
+
+  slideShowImageContainer.innerHTML = "";
+  slideShowImageContainer.appendChild(slideShowImage);
+};
+
 const createSlideShow = () => {
   const slideShowContainer = document.createElement("div");
   slideShowContainer.classList.add("slide-show-container");
   const slideShow = document.createElement("div");
   slideShow.classList.add("slide-show");
 
-  const slideShowImage = document.createElement("img");
-  slideShowImage.src = chosenImages[index].url;
-  slideShowImage.classList.add("slide-show-image");
-
-  slideShow.appendChild(slideShowImage);
+  const slideShowImageElement = createSlideShowImage();
+  slideShow.appendChild(slideShowImageElement);
 
   slideShowContainer.appendChild(slideShow);
 
-  const slideShowButtonsContainer = slideShowButtons(slideShowImage);
+  const slideShowButtonsContainer = slideShowButtons();
   slideShowContainer.appendChild(slideShowButtonsContainer);
 
   const thumbnailImageContainer = thumbnailImage();
   slideShowContainer.appendChild(thumbnailImageContainer);
 
-  const thumbnailsContainer = slideshowThumbnails(slideShowImage);
+  const thumbnailsContainer = slideshowThumbnails();
   slideShowContainer.appendChild(thumbnailsContainer);
 
-  startSlideShow(slideShowImage);
+  startSlideShow();
 
   return slideShowContainer;
 };
